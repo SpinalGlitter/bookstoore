@@ -1,0 +1,53 @@
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <h1 class="h4 mb-0">
+    <i class="fa-solid fa-plus me-2"></i>
+    Lägg till ny bok
+  </h1>
+
+  <a class="btn btn-outline-secondary" routerLink="/books">
+    <i class="fa-solid fa-arrow-left me-1"></i> Tillbaka
+  </a>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <form (ngSubmit)="save()" #f="ngForm">
+      <div class="mb-3">
+        <label class="form-label">Titel</label>
+        <input class="form-control" name="title" [(ngModel)]="model.title" required />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Författare</label>
+        <input class="form-control" name="author" [(ngModel)]="model.author" required />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Publiceringsdatum</label>
+        <input
+          class="form-control"
+          type="date"
+          name="publishedDate"
+          [(ngModel)]="model.publishedDate"
+          required
+        />
+      </div>
+      
+      <div class="mb-3">
+        <label class="form-label">Beskrivning</label>
+        <textarea
+          class="form-control"
+          rows="3"
+          name="description"
+          [(ngModel)]="model.description"
+          required
+        ></textarea>
+      </div>
+
+      <button class="btn btn-primary" [disabled]="f.invalid">
+        <i class="fa-solid fa-floppy-disk me-2"></i>
+        Spara
+      </button>
+    </form>
+  </div>
+</div>
