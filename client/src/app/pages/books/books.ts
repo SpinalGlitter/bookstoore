@@ -13,5 +13,7 @@ export class Books {
   readonly books = computed(() => this.booksService.books());
 
   constructor(private readonly booksService: BooksService) {}
+  remove(id: number) {
+    this.booksService.remove(id);
+  }
 }
-
