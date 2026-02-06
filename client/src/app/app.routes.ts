@@ -6,6 +6,7 @@ import { Books } from './pages/books/books';
 import { Quotes } from './pages/quotes/quotes';
 import { BookEdit } from './pages/book-edit/book-edit';
 import { QuoteNew } from './pages/quote-new/quote-new';
+import { QuoteEdit } from './pages/quote-edit/quote-edit';
 
 
 export const routes: Routes = [
@@ -16,6 +17,7 @@ export const routes: Routes = [
   { path: 'books/:id/edit', component: BookEdit },
   { path: 'books', component: Books },
   { path: 'quotes/new', component: QuoteNew },
+  { path: 'quotes/:id/edit', component: QuoteEdit },
   { path: 'quotes', component: Quotes },
   { path: '**', redirectTo: 'books' },
 ];
