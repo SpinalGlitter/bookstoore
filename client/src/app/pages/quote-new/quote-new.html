@@ -1,0 +1,41 @@
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <h1 class="h4 mb-0">
+    <i class="fa-solid fa-plus me-2"></i>
+    Lägg till citat
+  </h1>
+
+  <a class="btn btn-outline-secondary" routerLink="/quotes">
+    <i class="fa-solid fa-arrow-left me-1"></i> Tillbaka
+  </a>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    @if (!canAddMore()) {
+      <div class="alert alert-warning mb-3">Du kan max ha 5 citat. Ta bort ett citat först.</div>
+    }
+
+    <form (ngSubmit)="save()" #f="ngForm">
+      <div class="mb-3">
+        <label class="form-label">Citat</label>
+        <textarea
+          class="form-control"
+          rows="3"
+          name="text"
+          [(ngModel)]="model.text"
+          required
+        ></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Författare</label>
+        <input class="form-control" name="author" [(ngModel)]="model.author" required />
+      </div>
+
+      <button class="btn btn-primary" [disabled]="f.invalid || !canAddMore()">
+        <i class="fa-solid fa-floppy-disk me-2"></i>
+        Spara
+      </button>
+    </form>
+  </div>
+</div>
