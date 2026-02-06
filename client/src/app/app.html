@@ -32,6 +32,13 @@
       </ul>
 
       <div class="d-flex gap-2">
+        <button class="btn btn-outline-light btn-sm" type="button" (click)="toggleTheme()">
+          @if (theme() === 'dark') {
+            <i class="fa-solid fa-sun me-1"></i> Ljust
+          } @else {
+            <i class="fa-solid fa-moon me-1"></i> Mörkt
+          }
+        </button>
         <a class="btn btn-outline-light btn-sm" routerLink="/login">
           <i class="fa-solid fa-right-to-bracket me-1"></i> Logga in
         </a>
@@ -46,4 +53,3 @@
 <main class="container my-4">
   <router-outlet></router-outlet>
 </main>
-
