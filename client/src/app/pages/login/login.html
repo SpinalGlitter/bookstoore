@@ -1,1 +1,33 @@
-<p>login works!</p>
+<h1 class="h4 mb-3"><i class="fa-solid fa-right-to-bracket me-2"></i>Logga in</h1>
+
+@if (error) {
+  <div class="alert alert-danger">{{ error }}</div>
+}
+
+<div class="card">
+  <div class="card-body">
+    <form (ngSubmit)="submit()" #f="ngForm">
+      <div class="mb-3">
+        <label class="form-label">Användarnamn</label>
+        <input class="form-control" name="username" [(ngModel)]="model.username" required />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Lösenord</label>
+        <input
+          class="form-control"
+          type="password"
+          name="password"
+          [(ngModel)]="model.password"
+          required
+        />
+      </div>
+
+      <button class="btn btn-primary" [disabled]="f.invalid">
+        <i class="fa-solid fa-right-to-bracket me-2"></i>Logga in
+      </button>
+
+      <a class="btn btn-link" routerLink="/register">Skapa konto</a>
+    </form>
+  </div>
+</div>

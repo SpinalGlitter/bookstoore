@@ -39,12 +39,19 @@
             <i class="fa-solid fa-moon me-1"></i> Mörkt
           }
         </button>
-        <a class="btn btn-outline-light btn-sm" routerLink="/login">
-          <i class="fa-solid fa-right-to-bracket me-1"></i> Logga in
-        </a>
-        <a class="btn btn-warning btn-sm" routerLink="/register">
-          <i class="fa-solid fa-user-plus me-1"></i> Registrera
-        </a>
+
+        @if (auth.isLoggedIn()) {
+          <button class="btn btn-outline-light btn-sm" type="button" (click)="logout()">
+            <i class="fa-solid fa-right-from-bracket me-1"></i> Logga ut
+          </button>
+        } @else {
+          <a class="btn btn-outline-light btn-sm" routerLink="/login">
+            <i class="fa-solid fa-right-to-bracket me-1"></i> Logga in
+          </a>
+          <a class="btn btn-warning btn-sm" routerLink="/register">
+            <i class="fa-solid fa-user-plus me-1"></i> Registrera
+          </a>
+        }
       </div>
     </div>
   </div>
