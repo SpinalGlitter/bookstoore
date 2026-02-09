@@ -16,13 +16,14 @@ export class Register {
 
   constructor(private readonly auth: AuthService, private readonly router: Router) {}
 
-  submit() {
-    this.error = '';
-    const res = this.auth.register(this.model.username.trim(), this.model.password);
-    if (!res.ok) {
-      this.error = res.message ?? 'Kunde inte registrera.';
-      return;
-    }
-    this.router.navigateByUrl('/login');
+  async submit() {
+  this.error = '';
+  const res = await this.auth.register(this.model.username.trim(), this.model.password);
+  if (!res.ok) {
+    this.error = res.message ?? 'Kunde inte registrera.';
+    return;
   }
+  this.router.navigateByUrl('/login');
+}
+
 }

@@ -2,6 +2,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
+import { authTokenInterceptor } from './interceptors/auth-token.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

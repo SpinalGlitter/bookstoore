@@ -19,13 +19,14 @@ export class Login {
     private readonly router: Router,
   ) {}
 
-  submit() {
-    this.error = '';
-    const res = this.auth.login(this.model.username.trim(), this.model.password);
-    if (!res.ok) {
-      this.error = res.message ?? 'Kunde inte logga in.';
-      return;
-    }
-    this.router.navigateByUrl('/books');
+  async submit() {
+  this.error = '';
+  const res = await this.auth.login(this.model.username.trim(), this.model.password);
+  if (!res.ok) {
+    this.error = res.message ?? 'Kunde inte logga in.';
+    return;
   }
+  this.router.navigateByUrl('/books');
+}
+
 }
