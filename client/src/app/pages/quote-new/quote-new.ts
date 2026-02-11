@@ -20,8 +20,10 @@ export class QuoteNew {
     private readonly router: Router,
   ) {}
 
-  save() {
-    const ok = this.quotesService.add(this.model);
-    if (ok) this.router.navigateByUrl('/quotes');
+  async save() {
+    if (!this.quotesService.canAddMore()) return;
+
+    await this.quotesService.add(this.model);
+    await this.router.navigateByUrl('/quotes');
   }
 }

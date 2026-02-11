@@ -202,7 +202,7 @@ quotes.MapPost("/", async (ClaimsPrincipal user, QuoteCreateUpdateDto dto, AppDb
 {
     var userId = GetUserId(user);
     var count = await db.Quotes.CountAsync(q => q.UserId == userId);
-    if (count >= 5) return Results.BadRequest("Max 5 quotes allowed.");
+    if (count >= 5) return Results.BadRequest("Max 5 quotes är tillåtet.");
 
     var quote = new Quote { Text = dto.Text, Author = dto.Author, UserId = userId };
     db.Quotes.Add(quote);
