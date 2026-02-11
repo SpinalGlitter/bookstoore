@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class Login {
   model = { username: '', password: '' };
-  error = '';
+  error = signal<string>('');
 
   constructor(
     private readonly auth: AuthService,
@@ -20,13 +20,14 @@ export class Login {
   ) {}
 
   async submit() {
-  this.error = '';
-  const res = await this.auth.login(this.model.username.trim(), this.model.password);
-  if (!res.ok) {
-    this.error = res.message ?? 'Kunde inte logga in.';
-    return;
-  }
-  this.router.navigateByUrl('/books');
-}
+    this.error.set('');
+    const res = await this.auth.login(this.model.username.trim(), this.model.password);
 
+    if (!res.ok) {
+      this.error.set(res.message ?? 'Kunde inte logga in.');
+      return;
+    }
+
+    await this.router.navigateByUrl('/books');
+  }
 }

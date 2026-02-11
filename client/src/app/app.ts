@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ThemeService } from './services/theme.service';
 import { AuthService } from './services/auth.service';
 
@@ -16,15 +16,19 @@ export class App {
   constructor(
     private readonly themeService: ThemeService,
     protected readonly auth: AuthService,
+    private readonly router: Router,
   ) {
     this.themeService.init();
     this.theme.set(this.themeService.current);
   }
+
   toggleTheme() {
     const next = this.themeService.toggle();
     this.theme.set(next);
   }
-  logout() {
+
+  async logout() {
     this.auth.logout();
+    await this.router.navigateByUrl('/login');
   }
 }
