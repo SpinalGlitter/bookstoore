@@ -146,14 +146,18 @@ books.MapGet("/", async (ClaimsPrincipal user, AppDbContext db) =>
 
 books.MapPost("/", async (ClaimsPrincipal user, BookCreateUpdateDto dto, AppDbContext db) =>
 {
+    if (string.IsNullOrWhiteSpace(dto.Title)) return Results.BadRequest("Titel krävs.");
+    if (string.IsNullOrWhiteSpace(dto.Author)) return Results.BadRequest("Författare krävs.");
+    if (string.IsNullOrWhiteSpace(dto.Description)) return Results.BadRequest("Beskrivning krävs.");
+
     var userId = GetUserId(user);
 
     var book = new Book
     {
-        Title = dto.Title,
-        Author = dto.Author,
+        Title = dto.Title.Trim(),
+        Author = dto.Author.Trim(),
         PublishedDate = dto.PublishedDate,
-        Description = dto.Description,
+        Description = dto.Description.Trim(),
         UserId = userId
     };
 
@@ -162,20 +166,26 @@ books.MapPost("/", async (ClaimsPrincipal user, BookCreateUpdateDto dto, AppDbCo
     return Results.Ok(book);
 });
 
+
 books.MapPut("/{id:int}", async (ClaimsPrincipal user, int id, BookCreateUpdateDto dto, AppDbContext db) =>
 {
+    if (string.IsNullOrWhiteSpace(dto.Title)) return Results.BadRequest("Titel krävs.");
+    if (string.IsNullOrWhiteSpace(dto.Author)) return Results.BadRequest("Författare krävs.");
+    if (string.IsNullOrWhiteSpace(dto.Description)) return Results.BadRequest("Beskrivning krävs.");
+
     var userId = GetUserId(user);
     var book = await db.Books.SingleOrDefaultAsync(b => b.Id == id && b.UserId == userId);
     if (book is null) return Results.NotFound();
 
-    book.Title = dto.Title;
-    book.Author = dto.Author;
+    book.Title = dto.Title.Trim();
+    book.Author = dto.Author.Trim();
     book.PublishedDate = dto.PublishedDate;
-    book.Description = dto.Description;
+    book.Description = dto.Description.Trim();
 
     await db.SaveChangesAsync();
     return Results.Ok(book);
 });
+
 
 books.MapDelete("/{id:int}", async (ClaimsPrincipal user, int id, AppDbContext db) =>
 {
@@ -200,24 +210,37 @@ quotes.MapGet("/", async (ClaimsPrincipal user, AppDbContext db) =>
 
 quotes.MapPost("/", async (ClaimsPrincipal user, QuoteCreateUpdateDto dto, AppDbContext db) =>
 {
+    if (string.IsNullOrWhiteSpace(dto.Text))
+        return Results.BadRequest("Text krävs.");
+
     var userId = GetUserId(user);
+
     var count = await db.Quotes.CountAsync(q => q.UserId == userId);
     if (count >= 5) return Results.BadRequest("Max 5 quotes är tillåtet.");
 
-    var quote = new Quote { Text = dto.Text, Author = dto.Author, UserId = userId };
+    var quote = new Quote
+    {
+        Text = dto.Text.Trim(),
+        Author = (dto.Author ?? "").Trim(),
+        UserId = userId
+    };
+
     db.Quotes.Add(quote);
     await db.SaveChangesAsync();
     return Results.Ok(quote);
 });
 
+
 quotes.MapPut("/{id:int}", async (ClaimsPrincipal user, int id, QuoteCreateUpdateDto dto, AppDbContext db) =>
 {
+    if (string.IsNullOrWhiteSpace(dto.Text)) return Results.BadRequest("Text krävs.");
+
     var userId = GetUserId(user);
     var quote = await db.Quotes.SingleOrDefaultAsync(q => q.Id == id && q.UserId == userId);
     if (quote is null) return Results.NotFound();
 
-    quote.Text = dto.Text;
-    quote.Author = dto.Author;
+    quote.Text = dto.Text.Trim();
+    quote.Author = (dto.Author ?? "").Trim();
     await db.SaveChangesAsync();
     return Results.Ok(quote);
 });
