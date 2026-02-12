@@ -13,8 +13,11 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Db
-builder.Services.AddDbContext<AppDbContext>(opt =>
-    opt.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+var cs = builder.Configuration.GetConnectionString("Default")
+         ?? "Data Source=app.db";
+
+builder.Services.AddDbContext<AppDbContext>(opt => opt.UseSqlite(cs));
+
 
 // CORS
 builder.Services.AddCors(opt =>
@@ -100,6 +103,13 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+}
+
 
 app.UseCors("ClientCors");
 
