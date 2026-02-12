@@ -33,3 +33,12 @@ yarn-error.log*
 .vs/
 *.user
 *.suo
+
+# --- API local secrets / settings ---
+**/appsettings.Development.json
+**/appsettings.*.Development.json
+
+# --- Local SQLite database files ---
+**/*.db
+**/*.db-shm
+**/*.db-wal
