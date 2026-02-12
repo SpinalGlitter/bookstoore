@@ -21,11 +21,23 @@ builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("ClientCors", p =>
         p.SetIsOriginAllowed(origin =>
-            origin == "http://localhost:4200" ||
-            origin.EndsWith(".vercel.app"))
-         .AllowAnyHeader()
-         .AllowAnyMethod());
+        {
+            if (string.IsNullOrWhiteSpace(origin)) return false;
+
+            if (origin == "http://localhost:4200") return true;
+
+            if (Uri.TryCreate(origin, UriKind.Absolute, out var uri))
+            {
+                return uri.Scheme == "https" && uri.Host.EndsWith(".vercel.app");
+            }
+
+            return false;
+        })
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+    );
 });
+
 
 // JWT
 var jwt = builder.Configuration.GetSection("Jwt");
