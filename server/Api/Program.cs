@@ -20,10 +20,9 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("ClientCors", p =>
-        p.WithOrigins(
-            "http://localhost:4200",
-            "https://min-domain"
-        )
+        p.SetIsOriginAllowed(origin =>
+            origin == "http://localhost:4200" ||
+            origin.EndsWith(".vercel.app"))
          .AllowAnyHeader()
          .AllowAnyMethod());
 });
