@@ -20,7 +20,10 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("ClientCors", p =>
-        p.WithOrigins("http://localhost:4200")
+        p.WithOrigins(
+            "http://localhost:4200",
+            "https://min-domain"
+        )
          .AllowAnyHeader()
          .AllowAnyMethod());
 });
