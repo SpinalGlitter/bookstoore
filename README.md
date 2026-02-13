@@ -102,8 +102,6 @@ Exempel (Render env vars):
 * `Jwt__Audience` = `BookstoreClient`
 * `ConnectionStrings__Default` = `Data Source=app.db`
 
-> `Jwt__Key` ska aldrig committas till GitHub.
-
 ### Frontend – API base i produktion
 
 I `environment.prod.ts` används:
